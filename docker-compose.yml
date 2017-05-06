@@ -1,0 +1,25 @@
+version: "2"
+
+services:
+  mapserver:
+    image: carletes/mapserver
+    volumes:
+      - ./mapserver:/data:ro
+    read_only: true
+
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    links:
+      - mapserver
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+    read_only: true
+
+volumes:
+  mapserver-imagepath:
+    driver: local
