@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mapserver
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mapserver
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          command: ["nginx", "-c", "/config/nginx/nginx.conf", "-g", "daemon off;"]
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /config/nginx
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: mapserver-config
+            items:
+              - key: nginx-config
+                path: nginx.conf

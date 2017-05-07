@@ -4,7 +4,7 @@ services:
   mapserver:
     image: carletes/mapserver
     volumes:
-      - ./mapserver:/data:ro
+      - ../mapserver:/data:ro
     read_only: true
 
   nginx:
@@ -14,7 +14,7 @@ services:
     links:
       - mapserver
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
     tmpfs:
       - /var/cache/nginx
       - /var/run

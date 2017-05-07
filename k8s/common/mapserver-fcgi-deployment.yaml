@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: mapserver-fcgi
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: mapserver-fcgi
+    spec:
+      containers:
+        - name: mapserver-fcgi
+          image: carletes/mapserver
+          ports:
+            - containerPort: 9001
+          volumeMounts:
+            - name: mapserver-data
+              mountPath: /data
+      volumes:
+        - name: mapserver-data
+          persistentVolumeClaim:
+            claimName: mapserver-data
+            readOnly: true

@@ -1,0 +1,13 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: mapserver-fcgi
+spec:
+  ports:
+    - protocol: TCP
+      port: 9001
+      targetPort: 9001
+      name: http
+  selector:
+    app: mapserver-fcgi

@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mapserver-config
+data:
+  nginx-config: |
+    user nginx;
+    worker_processes 1;
+
+    error_log stderr debug;
+
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        access_log off;
+
+        server {
+            listen 80;
+
+            location /mapserver/ {
+                fastcgi_pass mapserver-fcgi:9001;
+                include /etc/nginx/fastcgi_params;
+            }
+        }
+    }
